@@ -20,6 +20,11 @@ const starterMessages = [
 ];
 
 export default function App() {
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  useEffect(() => {
+    restoreSession().then(setAuthUser).finally(() => setAuthLoading(false));
+  }, []);
   const [chats, setChats] = useState(initialChats);
   const [active, setActive] = useState(1);
   const [query, setQuery] = useState("");
@@ -30,6 +35,12 @@ export default function App() {
   const current = chats.find((chat) => chat.id === active) ?? chats[0];
   const visibleChats = useMemo(() => chats.filter((chat) => chat.name.toLowerCase().includes(query.toLowerCase()) && (tab !== "Unread" || chat.unread)), [chats, query, tab]);
   const currentMessages = messages[active] ?? starterMessages;
+
+  if (authLoading) return <main className="auth-loading">Loading NEXCHAT...</main>;
+  if (!authUser) return <AuthScreen
+    onLogin={async (identifier, password) => { setAuthUser(await loginAccount(identifier, password)); }}
+    onRegister={async (input) => { setAuthUser(await registerAccount(input)); }}
+  />;
 
   function sendMessage() {
     const text = message.trim();
