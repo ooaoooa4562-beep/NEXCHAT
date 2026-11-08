@@ -6,7 +6,7 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nexchat.app"
@@ -16,6 +16,7 @@
       "adaptiveIcon": {
         "backgroundColor": "#101827"
       }
-    }
+    },
+    "icon": "./assets/icon.png"
   }
 }
