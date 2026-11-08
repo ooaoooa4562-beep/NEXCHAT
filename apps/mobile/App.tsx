@@ -1,5 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import AuthScreen from "./AuthScreen";
+import { MobileUser, mobileLogin, mobileLogout, mobileRegister, mobileRestoreSession } from "./auth";
 import {
   FlatList,
   Pressable,
@@ -64,7 +66,7 @@ export default function App() {
             )}
             ListEmptyComponent={<Text style={styles.empty}>No conversations found</Text>}
           />
-          <Text style={styles.footer}>NEXCHAT · Preview 0.1.0</Text>
+          <Pressable onPress={async () => { await mobileLogout(); setUser(null); }}><Text style={styles.footer}>{user.displayName} · Sign out</Text></Pressable>
         </View>
       )}
     </SafeAreaView>
@@ -72,7 +74,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#0B1220" },
+  safe: { flex: 1, backgroundColor: "#0B1220" },\n  loading: { color: "#91A0B6", textAlign: "center", marginTop: 40 },
   screen: { flex: 1, paddingHorizontal: 20, paddingTop: 18 },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 24 },
   eyebrow: { color: "#8392AA", fontSize: 10, fontWeight: "800", letterSpacing: 2, marginBottom: 7 },
