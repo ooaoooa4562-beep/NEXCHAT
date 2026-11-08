@@ -23,6 +23,11 @@ const initialChats: Chat[] = [
 ];
 
 export default function App() {
+  const [user, setUser] = useState<MobileUser | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  useEffect(() => {
+    mobileRestoreSession().then(setUser).finally(() => setAuthLoading(false));
+  }, []);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Chat | null>(null);
   const [chats] = useState(initialChats);
@@ -74,7 +79,8 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#0B1220" },\n  loading: { color: "#91A0B6", textAlign: "center", marginTop: 40 },
+  safe: { flex: 1, backgroundColor: "#0B1220" },
+  loading: { color: "#91A0B6", textAlign: "center", marginTop: 40 },
   screen: { flex: 1, paddingHorizontal: 20, paddingTop: 18 },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 24 },
   eyebrow: { color: "#8392AA", fontSize: 10, fontWeight: "800", letterSpacing: 2, marginBottom: 7 },
