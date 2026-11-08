@@ -33,6 +33,12 @@ export default function App() {
   const [chats] = useState(initialChats);
   const filtered = chats.filter((chat) => chat.name.toLowerCase().includes(query.toLowerCase()));
 
+  if (authLoading) return <SafeAreaView style={styles.safe}><Text style={styles.loading}>Loading NEXCHAT...</Text></SafeAreaView>;
+  if (!user) return <SafeAreaView style={styles.safe}><AuthScreen
+    onLogin={async (identifier, password) => { setUser(await mobileLogin(identifier, password)); }}
+    onRegister={async (input) => { setUser(await mobileRegister(input)); }}
+  /></SafeAreaView>;
+
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar style="light" />
