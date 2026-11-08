@@ -42,6 +42,7 @@ model User {
   messages       Message[]
   sentRequests   FriendRequest[] @relation("FriendRequestSender")
   receivedRequests FriendRequest[] @relation("FriendRequestReceiver")
+  sessions       UserSession[]
 }
 
 model Conversation {
@@ -96,4 +97,17 @@ model FriendRequest {
 
   @@unique([senderId, receiverId])
   @@index([receiverId, acceptedAt])
+}
+
+model UserSession {
+  id               String   @id
+  userId           String
+  refreshTokenHash String   @unique
+  expiresAt        DateTime
+  lastUsedAt       DateTime @default(now())
+  revokedAt        DateTime?
+  createdAt        DateTime @default(now())
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
 }
