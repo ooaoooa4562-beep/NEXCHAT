@@ -4,23 +4,30 @@ import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import { Server as SocketIOServer } from "socket.io";
+import jwt from "@fastify/jwt";
+import authRoutes from "./routes/auth.js";
+import { prisma } from "./db.js";
 import { z } from "zod";
 
 const env = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   PORT: z.coerce.number().int().positive().default(4000),
   HOST: z.string().default("0.0.0.0"),
-  WEB_ORIGIN: z.string().default("http://localhost:5173")
+  WEB_ORIGIN: z.string().default("http://localhost:5173"),
+  JWT_ACCESS_SECRET: z.string().min(32)
 }).parse(process.env);
 
 const app = Fastify({ logger: true, trustProxy: true });
 
 await app.register(helmet);
+await app.register(jwt, { secret: env.JWT_ACCESS_SECRET });
 await app.register(cors, {
   origin: env.WEB_ORIGIN.split(",").map((value) => value.trim()),
   credentials: true
 });
 await app.register(rateLimit, { max: 120, timeWindow: "1 minute" });
+
+await app.register(authRoutes);
 
 app.get("/", async () => ({
   name: "NEXCHAT API",
