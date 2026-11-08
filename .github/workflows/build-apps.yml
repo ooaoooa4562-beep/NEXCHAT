@@ -85,13 +85,13 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-      - name: Generate iOS project
-        working-directory: apps/mobile
-        run: pnpm exec expo prebuild --platform ios
       - name: Generate NEXCHAT icons
         run: pnpm --filter @nexchat/desktop exec tauri icon src-tauri/icons/nexchat.svg
       - name: Copy app icon
         run: mkdir -p apps/mobile/assets && cp apps/desktop/src-tauri/icons/icon.png apps/mobile/assets/icon.png
+      - name: Generate iOS project and install CocoaPods
+        working-directory: apps/mobile
+        run: pnpm exec expo prebuild --platform ios
       - name: Build iOS Simulator app
         working-directory: apps/mobile
         run: |
