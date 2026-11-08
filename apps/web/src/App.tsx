@@ -1,4 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import AuthScreen from "./AuthScreen";
+import { AuthUser, clearSession, loginAccount, logoutAccount, registerAccount, restoreSession } from "./auth";
 import { Search, Pencil, MoreHorizontal, Paperclip, Smile, Mic, Send, CheckCheck, Phone, Video, Info, MessageCircle, Users, Settings, Archive, Image, FileText, Plus, ChevronDown } from "lucide-react";
 
 type Chat = { id: number; name: string; message: string; time: string; unread?: number; online?: boolean; avatar: string; color: string; pinned?: boolean };
@@ -46,7 +48,7 @@ export default function App() {
       <button className="rail-button" title="Archived"><Archive size={21}/></button>
       <div className="rail-spacer"/>
       <button className="rail-button" title="Settings"><Settings size={21}/></button>
-      <div className="my-avatar">R</div>
+      <button className="my-avatar" title="Sign out" onClick={async () => { await logoutAccount(); clearSession(); setAuthUser(null); }}>{authUser.displayName.slice(0, 1).toUpperCase()}</button>
     </aside>
 
     <section className="sidebar">
