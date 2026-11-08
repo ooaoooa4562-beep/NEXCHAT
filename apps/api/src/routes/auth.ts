@@ -50,7 +50,7 @@ async function issueSession(app: Parameters<FastifyPluginAsync>[0], userId: stri
 }
 
 const authRoutes: FastifyPluginAsync = async (app) => {
-  app.post("/auth/register", async (request, reply) => {
+  app.post("/auth/register", { config: { rateLimit: { max: 5, timeWindow: "1 minute" } } }, async (request, reply) => {
     const parsed = registerSchema.safeParse(request.body);
     if (!parsed.success) return reply.code(400).send({ error: "INVALID_INPUT", message: parsed.error.issues[0]?.message ?? "Invalid input" });
 
@@ -87,7 +87,7 @@ const authRoutes: FastifyPluginAsync = async (app) => {
     }
   });
 
-  app.post("/auth/login", async (request, reply) => {
+  app.post("/auth/login", { config: { rateLimit: { max: 5, timeWindow: "1 minute" } } }, async (request, reply) => {
     const parsed = loginSchema.safeParse(request.body);
     if (!parsed.success) return reply.code(400).send({ error: "INVALID_INPUT", message: "Enter your username/email and password" });
 
