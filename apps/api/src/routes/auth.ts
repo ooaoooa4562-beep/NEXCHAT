@@ -1,5 +1,5 @@
 import { randomBytes, createHash } from "node:crypto";
-import type { FastifyPluginAsync } from "fastify";
+import type { FastifyInstance, FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { hash, verify } from "@node-rs/argon2";
 import { prisma } from "../db.js";
@@ -36,7 +36,7 @@ function publicUser(user: { id: string; username: string; displayName: string; e
   };
 }
 
-async function issueSession(app: Parameters<FastifyPluginAsync>[0], userId: string) {
+async function issueSession(app: FastifyInstance, userId: string) {
   const sessionId = randomBytes(24).toString("hex");
   const refreshToken = randomBytes(48).toString("base64url");
   const expiresAt = new Date(Date.now() + refreshLifetimeMs);
