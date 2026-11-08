@@ -78,43 +78,6 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-  ios-simulator:
-    name: iOS Simulator build (not for physical iPhone)
-    runs-on: macos-15
-    steps:
-      - uses: actions/checkout@v4
-      - name: Select Xcode 16.4
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '16.4'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.0.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
-      - name: Generate NEXCHAT icons
-        run: pnpm --filter @nexchat/desktop exec tauri icon src-tauri/icons/nexchat.svg
-      - name: Copy app icon
-        run: mkdir -p apps/mobile/assets && cp apps/desktop/src-tauri/icons/icon.png apps/mobile/assets/icon.png
-      - name: Generate iOS project and install CocoaPods
-        working-directory: apps/mobile
-        run: pnpm exec expo prebuild --platform ios
-      - name: Build iOS Simulator app
-        working-directory: apps/mobile
-        run: |
-          xcodebuild -project ios/NEXCHAT.xcodeproj -scheme NEXCHAT -sdk iphonesimulator -configuration Debug -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-          cd build/Build/Products/Debug-iphonesimulator
-          ditto -c -k --sequesterRsrc --keepParent NEXCHAT.app NEXCHAT-iOS-Simulator.zip
-      - uses: actions/upload-artifact@v4
-        with:
-          name: nexchat-ios-simulator
-          path: apps/mobile/build/Build/Products/Debug-iphonesimulator/NEXCHAT-iOS-Simulator.zip
-          if-no-files-found: error
-          retention-days: 14
-
   windows:
     name: Windows installer
     runs-on: windows-latest
