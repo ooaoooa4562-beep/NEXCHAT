@@ -1,12 +1,35 @@
 # NEXCHAT API
 
-Fastify + Socket.IO API service.
+Fastify API and Socket.IO gateway.
 
-## Local development
+## Required environment
 
-1. Copy the repository root `.env.example` to `.env` and configure values.
-2. Install workspace dependencies with `pnpm install`.
-3. Start the API with `pnpm --filter @nexchat/api dev`.
-4. Check `GET /health`.
+- `DATABASE_URL`: PostgreSQL connection string.
+- `JWT_ACCESS_SECRET`: random secret of at least 32 characters.
+- `WEB_ORIGIN`: comma-separated allowed browser origins, including the deployed web app and local development origin.
+- `PORT`: supplied by Railway in production.
 
-The initial realtime gateway only announces connection readiness. It intentionally does not accept chat messages or room joins until authentication and membership authorization are implemented.
+Do not commit secrets. Configure production values in Railway's service Variables page.
+
+## Database
+
+After setting `DATABASE_URL`, generate the Prisma client and apply the current schema:
+
+```bash
+pnpm --filter @nexchat/api db:generate
+pnpm --filter @nexchat/api exec prisma db push
+```
+
+The schema is currently managed with Prisma DB Push; production migration files have not yet been established. Back up a production database before schema changes.
+
+## Authentication endpoints
+
+- `POST /auth/register` — create account (username, displayName, email, password).
+- `POST /auth/login` — sign in with username/email and password.
+- `POST /auth/refresh` — rotate refresh token.
+- `POST /auth/logout` — revoke refresh token.
+- `GET /auth/me` — return the signed-in user (Bearer access token).
+
+Passwords are hashed with Argon2id. Access tokens expire after 15 minutes. Refresh tokens are random opaque tokens stored only as SHA-256 hashes and expire after 30 days. Registration and login are rate-limited.
+
+Email verification, password reset, account recovery and production abuse monitoring are not implemented yet.
