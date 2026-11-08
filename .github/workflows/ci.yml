@@ -1,0 +1,32 @@
+name: NEXCHAT checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.0.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Generate Prisma client
+        run: pnpm --filter @nexchat/api db:generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/nexchat
+      - name: Check API types
+        run: pnpm --filter @nexchat/api typecheck
+      - name: Build web client
+        run: pnpm --filter @nexchat/web build
+      - name: Check mobile types
+        run: pnpm --filter @nexchat/mobile typecheck
