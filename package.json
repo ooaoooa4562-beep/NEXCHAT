@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "pnpm --parallel --filter @nexchat/api --filter @nexchat/web dev",
     "build": "pnpm -r build",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "dev:web": "pnpm --filter @nexchat/web dev",
+    "dev:mobile": "pnpm --filter @nexchat/mobile start",
+    "dev:desktop": "pnpm --filter @nexchat/desktop dev",
+    "db:generate": "pnpm --filter @nexchat/api db:generate",
+    "db:push": "pnpm --filter @nexchat/api exec prisma db push"
   },
   "devDependencies": {
     "typescript": "^5.7.3"
