@@ -55,6 +55,10 @@ jobs:
           packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+      - name: Generate NEXCHAT icons
+        run: pnpm --filter @nexchat/desktop exec tauri icon src-tauri/icons/nexchat.svg
+      - name: Copy app icon
+        run: mkdir -p apps/mobile/assets && cp apps/desktop/src-tauri/icons/icon.png apps/mobile/assets/icon.png
       - name: Generate Android project
         working-directory: apps/mobile
         run: pnpm exec expo prebuild --platform android --no-install
@@ -83,7 +87,11 @@ jobs:
         run: pnpm install --no-frozen-lockfile
       - name: Generate iOS project
         working-directory: apps/mobile
-        run: pnpm exec expo prebuild --platform ios --no-install
+        run: pnpm exec expo prebuild --platform ios
+      - name: Generate NEXCHAT icons
+        run: pnpm --filter @nexchat/desktop exec tauri icon src-tauri/icons/nexchat.svg
+      - name: Copy app icon
+        run: mkdir -p apps/mobile/assets && cp apps/desktop/src-tauri/icons/icon.png apps/mobile/assets/icon.png
       - name: Build iOS Simulator app
         working-directory: apps/mobile
         run: |
@@ -111,6 +119,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+      - name: Generate NEXCHAT icons
+        run: pnpm --filter @nexchat/desktop exec tauri icon src-tauri/icons/nexchat.svg
       - name: Build Windows installers
         run: pnpm --filter @nexchat/desktop build
       - uses: actions/upload-artifact@v4
@@ -136,6 +146,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+      - name: Generate NEXCHAT icons
+        run: pnpm --filter @nexchat/desktop exec tauri icon src-tauri/icons/nexchat.svg
       - name: Build macOS app
         run: pnpm --filter @nexchat/desktop build
       - uses: actions/upload-artifact@v4
