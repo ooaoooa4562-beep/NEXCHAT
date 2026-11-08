@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "NEXCHAT",
+    "slug": "nexchat",
+    "scheme": "nexchat",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nexchat.app"
+    },
+    "android": {
+      "package": "com.nexchat.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#101827"
+      }
+    }
+  }
+}
