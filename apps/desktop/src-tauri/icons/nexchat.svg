@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+ <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#075dff"/><stop offset=".55" stop-color="#14d7ff"/><stop offset="1" stop-color="#7b16ff"/></linearGradient>
+ <linearGradient id="orbit" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a8ffff"/><stop offset=".42" stop-color="#13cfff"/><stop offset="1" stop-color="#a83cff"/></linearGradient>
+ <linearGradient id="letter" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#528cff"/></linearGradient>
+ <radialGradient id="bg"><stop stop-color="#071a58"/><stop offset="1" stop-color="#020817"/></radialGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="18" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect x="60" y="60" width="904" height="904" rx="210" fill="url(#bg)" stroke="url(#frame)" stroke-width="18"/>
+<g fill="none" stroke="url(#orbit)" stroke-width="32" stroke-linecap="round" filter="url(#glow)">
+ <path d="M280 710 C180 600 220 360 350 285 C405 253 480 250 555 250 H760"/>
+ <path d="M285 760 L250 855 L455 735 H645 C765 735 825 655 825 535 V390"/>
+ <path d="M120 650 C165 770 335 745 520 690 C740 625 900 515 900 420 C900 380 865 360 830 360"/>
+</g>
+<path d="M330 660 L405 340 L635 500 L675 345 L775 345 L690 685 L470 525 L435 660 Z" fill="url(#letter)"/>
+<circle cx="790" cy="250" r="62" fill="#ff1744" stroke="#ff6a86" stroke-width="9" filter="url(#glow)"/>
+<g fill="#16baff"><path d="M320 140 l15 48 48 15 -48 15 -15 48 -15 -48 -48 -15 48 -15z"/></g>
+<g fill="#8c35ff"><path d="M180 250 l10 30 30 10 -30 10 -10 30 -10 -30 -30 -10 30 -10z"/><path d="M825 800 l12 38 38 12 -38 12 -12 38 -12 -38 -38 -12 38 -12z"/></g>
+</svg>
