@@ -71,8 +71,6 @@ jobs:
       - name: Build installable debug APK
         working-directory: apps/mobile/android
         run: ./gradlew assembleDebug --stacktrace
-        working-directory: apps/mobile/android
-        run: ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: nexchat-android-debug-apk
